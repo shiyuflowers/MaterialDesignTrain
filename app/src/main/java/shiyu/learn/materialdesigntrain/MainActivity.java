@@ -8,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
@@ -15,8 +17,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
+    private Fruit[] mFruits={new Fruit("apple",R.drawable.apple),
+            new Fruit("banana",R.drawable.banana),
+            new Fruit("cherry",R.drawable.cherry),
+            new Fruit("grape",R.drawable.grape),
+            new Fruit("mango",R.drawable.mango),
+            new Fruit("orange",R.drawable.orange),
+            new Fruit("pear",R.drawable.pear),
+            new Fruit("pineapple",R.drawable.pineapple),
+            new Fruit("steawberry",R.drawable.steawberry),
+            new Fruit("watermelon",R.drawable.watermelon)};
+
+    private List<Fruit> mFruitList=new ArrayList<>();
+    private FruitAdapter mFruitAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +75,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        initFruits();
+        RecyclerView recyclerView=findViewById(R.id.recyclerView);
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(this,2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        mFruitAdapter=new FruitAdapter(mFruitList);
+        recyclerView.setAdapter(mFruitAdapter);
+
+    }
+
+    private void initFruits() {
+        mFruitList.clear();
+        for (int i = 0; i < 50; i++) {
+            Random random=new Random();
+            int index=random.nextInt(mFruits.length);
+            mFruitList.add(mFruits[index]);
+        }
     }
 
     @Override
